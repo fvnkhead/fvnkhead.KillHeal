@@ -1,0 +1,16 @@
+global function KillHeal_Init
+
+void function KillHeal_Init() {
+    AddCallback_OnPlayerKilled(OnPlayerKilled)
+}
+
+void function OnPlayerKilled( entity victim, entity attacker, var damageInfo )
+{
+    if (!victim.IsPlayer() || !attacker.IsPlayer() || GetGameState() != eGameState.Playing) {
+        return
+    }
+
+    if (attacker != victim && IsAlive(attacker)) {
+        attacker.SetHealth(attacker.GetMaxHealth())
+    }
+}
