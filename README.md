@@ -1,3 +1,7 @@
 # fvnkhead.KillHeal
 
-Heal on kill
+Heal-on-kill mod for Northstar
+
+## Convars
+
+See `mod.json`

@@ -1,12 +1,22 @@
 {
     "Name": "fvnkhead.KillHeal",
     "Description": "Heal on kill",
-    "Version": "1.0.0",
+    "Version": "1.1.0",
     "LoadPriority": 2,
+    "ConVars": [
+        {
+            "Name": "killheal", // enabled for all players
+            "DefaultValue": "1"
+        },
+        {
+            "Name": "killheal_ctf", // enabled *only* for CTF flag carrier
+            "DefaultValue": "0"
+        }
+    ],
     "Scripts": [
         {
             "Path": "killheal.gnut",
-            "RunOn": "MP",
+            "RunOn": "SERVER && MP",
             "ServerCallback": {
                 "After": "KillHeal_Init"
             }

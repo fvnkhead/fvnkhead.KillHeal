@@ -1,7 +1,17 @@
 global function KillHeal_Init
 
+struct {
+    bool enabled
+    bool ctfEnabled
+} file
+
 void function KillHeal_Init() {
-    AddCallback_OnPlayerKilled(OnPlayerKilled)
+    file.enabled = GetConVarBool("killheal")
+    file.ctfEnabled = GetConVarBool("killheal_ctf")
+
+    if (file.enabled || file.ctfEnabled) {
+        AddCallback_OnPlayerKilled(OnPlayerKilled)
+    }
 }
 
 void function OnPlayerKilled( entity victim, entity attacker, var damageInfo )
@@ -11,6 +21,31 @@ void function OnPlayerKilled( entity victim, entity attacker, var damageInfo )
     }
 
     if (attacker != victim && IsAlive(attacker)) {
+        if (file.ctfEnabled && !HasFlag(attacker)) {
+            return
+        }
+
         attacker.SetHealth(attacker.GetMaxHealth())
     }
+}
+
+bool function HasFlag(entity player) {
+    array<entity> children = GetChildren(player)
+    foreach (entity childEnt in children) {
+        if (childEnt.GetClassName() == "item_flag") {
+            return true
+        }
+    }
+    return false
+}
+
+array<entity> function GetChildren(entity parentEnt) {
+    entity childEnt = parentEnt.FirstMoveChild()
+    array<entity> children = []
+    while (childEnt != null) {
+        children.append(childEnt)
+        childEnt = childEnt.NextMovePeer()
+    }
+
+    return children
 }
