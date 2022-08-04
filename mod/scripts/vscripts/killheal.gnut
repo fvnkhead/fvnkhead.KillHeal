@@ -16,7 +16,7 @@ void function KillHeal_Init() {
 
 void function OnPlayerKilled( entity victim, entity attacker, var damageInfo )
 {
-    if (!victim.IsPlayer() || !attacker.IsPlayer() || GetGameState() != eGameState.Playing) {
+    if (!victim.IsPlayer() || !attacker.IsPlayer() || !IsPilot(attacker) || GetGameState() != eGameState.Playing) {
         return
     }
 
